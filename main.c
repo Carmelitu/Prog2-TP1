@@ -2,31 +2,47 @@
 #include <stdlib.h>
 #include <string.h>
 
+const int maxC = 10;
 // Proto
+// 1
 void inicializarEnMenosUno (int a[]);
 int ingresarValores(int a[], int dim);
 int sumarContenidoArreglo (int a[], int v);
 float promedioArreglo (int suma, int validos);
 
+// 2
 int cargarString (char string[30]);
 void invertirArreglo (char string[30]);
 void mostrarString (char string[30]);
 
+// 3
 int arregloADecimal (int a[], int validos);
 
+// 4
 int posicionMayor (int A[], int validos);
 
+// 5
+void cargarMatriz (int matriz[][maxC], int dimF, int dimC);
+int maxPrecipitacion (int matriz[][maxC], int mes, int dimC);
+void maxPrecipitacion12Meses (int matriz[][maxC], int dimF, int dimC, int arregloPrecipitaciones[]);
+void mostrarMatriz (int matriz[][maxC], int dimF, int dimC);
+
+// 6
 int esPalindromo(char a[]);
 
- void intercambiarVariables(int *numero1, int *numero2);
+// 7
+void intercambiarVariables(int *numero1, int *numero2);
+
+// 10
+void datosArreglo(int A[], int validos, int * valorMaximo, int * valorMinimo, float * promedio);
+
+
 
 // Variables / Arreglos
 char string[30];
 int arr3[4] = {3,2,8,9};
 
-/*1. Se tiene un arreglo de números enteros positivos. Se desea obtener el promedio de sus valores. Para ello se debe:
 
-f. Hacer la función main correspondiente.*/
 
 
 int main()
@@ -63,13 +79,30 @@ int main()
     printf("%i %i  \n", a, b);*/
 
 
+    /// 5
+    int matriz[12][maxC];
+
+    cargarMatriz(matriz,12,maxC);
+    mostrarMatriz(matriz,12,maxC);
+
+    int mesObtener = 0;
+    printf("\nDe que mes desea obtener la mayor precipitacion? -> ");
+    scanf("%i", &mesObtener);
+    int maxima = maxPrecipitacion(matriz,mesObtener,maxC);
+    printf("\n FUNCION Maxima precipitacion del mes %i: %i", mesObtener, maxima);
+
+    int arregloPrecipitaciones[12];
+    maxPrecipitacion12Meses(matriz,12,maxC, arregloPrecipitaciones);
+
 
 
     return 0;
 
 }
 
-// a. Función que inicialice las celdas del arreglo void mostrarString (char string[30])en -1
+/* 1. Se tiene un arreglo de números enteros positivos. Se desea obtener el promedio de sus valores. */
+
+// a. Función que inicialice las celdas del arreglo void mostrarString (char string[30]) en -1
 void inicializarEnMenosUno (int a[])
 {
     for(int i = 0; i < 10; i++)
@@ -203,6 +236,79 @@ int posicionMayor (int A[], int validos)
     d. Hacer la función main con el menú correspondiente.
  */
 
+ void cargarMatriz (int matriz[][maxC], int dimF, int dimC)
+{
+    int random = 0;
+
+    srand(time(NULL));
+
+    for (int f = 0; f < dimF; f++)
+    {
+        for (int c = 0; c < dimC; c++)
+        {
+            matriz[f][c] = rand()%999;
+        }
+    }
+}
+
+//b. Hacer una función que retorne el día de máxima precipitación para un mes determinado.
+int maxPrecipitacion (int matriz[][maxC], int mes, int dimC)
+{
+    int mayor = 0;
+    int mesObtener = mes - 1;
+
+    for (int f = 0; f < mes; f++) // Recorre filas de 0 a 11 (mes 1 a 12)
+    {
+        if (mesObtener == f) // Recorre las columnas si mes - 1 = mes ingresado
+        {
+            for (int c = 0; c < dimC; c++)
+            {
+                if (matriz[f][c] > mayor)
+                {
+                    mayor = matriz[f][c];
+                }
+
+            }
+        }
+    }
+
+    return mayor;
+
+}
+
+//c. Hacer una función que cargue en un arreglo de 12 posiciones el resultado de aplicar la fn anterior a cada mes del año.
+void maxPrecipitacion12Meses (int matriz[][maxC], int dimF, int dimC, int arregloPrecipitaciones[])
+{
+    int mes = 1;
+    int maximo = 0;
+    int posmes = 0;
+
+    for (mes = 1; mes <= dimF; mes++) // Del 1 al 12 (en la fn anterior las columnas se recorren con mes - 1)
+    {
+        maximo = maxPrecipitacion(matriz, mes, maxC);
+        arregloPrecipitaciones[posmes] = maximo;
+        printf("\nMaxima precipitacion mes %i: %i", mes, arregloPrecipitaciones[posmes]);
+        posmes ++;
+    }
+}
+
+void mostrarMatriz (int matriz[][maxC], int dimF, int dimC)
+{
+
+    int f = 0;
+    int c = 0;
+    int rand();
+
+    for (f = 0; f < dimF; f++)
+    {
+        for (c = 0; c < dimC; c++)
+        {
+            printf(" %i |", matriz[f][c]);
+        }
+        printf("\n");
+    }
+}
+
  /* 6. Dada una cadena de caracteres, hacer una función que determine si dicha cadena es palíndromo o no.
  La función recibe como parámetro la cadena y retorna 1 o 0 según sea la respuesta. */
 
@@ -234,6 +340,59 @@ int posicionMayor (int A[], int validos)
 	(*numero2) = aux;
 }
 
+/* 8. Dados dos arreglos de números enteros ordenados de menor a mayor, hacer una función que los reciba como parámetros y
+      retorne un tercer arreglo que contenga los datos de los arreglos anteriores, también ordenados. Se los debe intercalar. */
 
 
+/* 9. Dados dos arreglos paralelos, uno con apellidos y otro con edades.
+      Se debe hacer un programa para encontrar el apellido de la persona de mayor edad. Se debe modularizar. */
+
+/* 10. Hacer una función que reciba como parámetros de entrada un arreglo de enteros y su dimensión, y tres parámetros de salida,
+       tres números enteros que representen: valor máximo, valor mínimo y promedio. Se debe usar pasaje de parámetros por referencia. */
+
+void datosArreglo(int A[], int validos, int * valorMaximo, int * valorMinimo, float * promedio){
+    *valorMaximo = valorMayor(A, validos);
+    *valorMinimo = valorMenor(A, validos);
+    int suma = sumarContenidoArreglo(A, validos);
+    *promedio = promedioArreglo(suma, validos);
+}
+
+int valorMayor (int A[], int validos)
+{
+    int i = 0;
+    int pos = 0;
+    int mayor = A[pos];
+    i = pos + 1;
+    while (i<validos)
+    {
+        if (mayor < A[i])
+        {
+            mayor = A[i];
+        }
+        i++;
+    }
+
+    printf("Mayor: %i", mayor);
+    return mayor;
+}
+
+int valorMenor (int A[], int validos)
+{
+    int i = 0;
+    int pos = 0;
+    int menor = A[pos];
+    i = pos + 1;
+
+    while (i<validos)
+    {
+        if (menor > A[i])
+        {
+            menor = A[i];
+        }
+        i++;
+    }
+
+    printf("Menor: %i", menor);
+    return menor;
+}
 
