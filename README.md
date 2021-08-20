@@ -1,8 +1,8 @@
-## UTN – FR Mar del Plata - Técnico Universitario en Programación
+UTN – FR Mar del Plata - Técnico Universitario en Programación
 
 # Programación II y Laboratorio II
 
-Trabajo Práctico N° 1: Funciones y punteros 
+## Trabajo Práctico N° 1: Funciones y punteros 
 
 1. Se tiene un arreglo de números enteros positivos. Se desea obtener el promedio de sus valores. Para ello se debe: 
 a. Hacer una función que inicialice las celdas del arreglo en –1. 
